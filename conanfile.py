@@ -1,4 +1,5 @@
 import os
+
 from conans import ConanFile, CMake, tools
 
 
@@ -15,9 +16,9 @@ class LevmarConan(ConanFile):
     default_options = {"shared": True, "fPIC": True}
     topics = ("Levenberg-Marquardt", "optimization", "algorithm", "algebra")
     generators = "cmake"
-    requires = ("lapack/3.7.1@conan/stable","libf2c/20181026@czoido/stable")
+    requires = ("lapack/3.7.1@conan/stable", "libf2c/20181026@czoido/stable")
     _source_subfolder = "levmar_sources"
-    
+
     def source(self):
         tools.get("{}/{}-{}.tgz".format(self.homepage, self.name, self.version))
         os.rename("{}-{}".format(self.name, self.version), self._source_subfolder)
@@ -28,7 +29,8 @@ class LevmarConan(ConanFile):
                               '''PROJECT(LEVMAR)
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()''')
-        tools.replace_in_file("%s/CMakeLists.txt" % self._source_subfolder, "TARGET_LINK_LIBRARIES(lmdemo ${LIBS})","TARGET_LINK_LIBRARIES(lmdemo ${LIBS} gfortran)")
+        tools.replace_in_file("%s/CMakeLists.txt" % self._source_subfolder, "TARGET_LINK_LIBRARIES(lmdemo ${LIBS})",
+                              "TARGET_LINK_LIBRARIES(lmdemo ${LIBS} gfortran)")
 
     def build(self):
         cmake = CMake(self)
@@ -55,4 +57,3 @@ conan_basic_setup()''')
 
     def package_info(self):
         self.cpp_info.libs = ["levmar"]
-
