@@ -104,3 +104,4 @@ fabric.properties
 .idea/libf2c.iml
 .idea/misc.xml
 .idea/modules.xml
+export_env.sh
