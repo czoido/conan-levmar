@@ -17,6 +17,7 @@ class LevmarConan(ConanFile):
     topics = ("Levenberg-Marquardt", "optimization", "algorithm", "algebra")
     generators = "cmake"
     requires = ("lapack/3.7.1@conan/stable", "libf2c/20181026@czoido/stable")
+    build_policy = "missing"
     _source_subfolder = "levmar_sources"
 
     def source(self):
