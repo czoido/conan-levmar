@@ -7,6 +7,8 @@ env:
      - CONAN_CHANNEL: "stable"
      - CONAN_UPLOAD: "https://api.bintray.com/conan/czoido/conan-packages"
      - CONAN_REMOTES: "https://api.bintray.com/conan/czoido/conan-packages@True@czoido-bintray"
+     - CONAN_DOCKER_32_IMAGES: 1
+     - CONAN_TOTAL_PAGES: 2
 
 linux: &linux
    os: linux
@@ -74,4 +76,4 @@ install:
 
 script:
   - chmod +x .travis/run.sh
-  - ./.travis/run.sh
+  - travis_wait ./.travis/run.sh
