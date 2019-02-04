@@ -74,4 +74,4 @@ install:
 
 script:
   - chmod +x .travis/run.sh
-  - travis_wait 40 ./.travis/run.sh
+  - ./.travis/run.sh
