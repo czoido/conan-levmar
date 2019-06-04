@@ -16,7 +16,7 @@ class LevmarConan(ConanFile):
     default_options = {"shared": True, "fPIC": True}
     topics = ("Levenberg-Marquardt", "optimization", "algorithm", "algebra")
     generators = "cmake"
-    requires = ("lapack/3.7.1@conan/stable", "libf2c/20181026@czoido/stable")
+    requires = ("libf2c/20181026@czoido/stable")
     _source_subfolder = "levmar_sources"
 
     def source(self):
@@ -34,26 +34,22 @@ conan_basic_setup()''')
 
     def build(self):
         cmake = CMake(self)
-        cmake.definitions["HAVE_LAPACK"] = True
+        cmake.definitions["HAVE_LAPACK"] = False
         cmake.definitions["NEED_F2C"] = True
         cmake.definitions["LM_DBL_PREC"] = True
         cmake.definitions["BUILD_DEMO"] = False
         cmake.configure(source_folder=self._source_subfolder)
         cmake.build()
 
-        # Explicit way:
-        # self.run('cmake %s/hello %s'
-        #          % (self.source_folder, cmake.command_line))
-        # self.run("cmake --build . %s" % cmake.build_config)
-
     def package(self):
         self.copy("LICENSE", dst="licenses", src=self._source_subfolder)
         self.copy("*.h", dst="include", src=self._source_subfolder)
-        self.copy("*hello.lib", dst="lib", keep_path=False)
+        self.copy("*.lib", dst="lib", keep_path=False)
         self.copy("*.dll", dst="bin", keep_path=False)
         self.copy("*.so", dst="lib", keep_path=False)
         self.copy("*.dylib", dst="lib", keep_path=False)
         self.copy("*.a", dst="lib", keep_path=False)
+        self.copy("*.lib", dst="lib", keep_path=False)
 
     def package_info(self):
         self.cpp_info.libs = ["levmar"]
