@@ -12,11 +12,9 @@ class LevmarConan(ConanFile):
     homepage = "http://users.ics.forth.gr/~lourakis/levmar"
     description = "C/C++ implementation of the Levenberg-Marquardt non-linear least squares algorithm"
     settings = "os", "compiler", "build_type", "arch"
-    options = {"shared": [True, False], "fPIC": [True, False]}
-    default_options = {"shared": True, "fPIC": True}
     topics = ("Levenberg-Marquardt", "optimization", "algorithm", "algebra")
     generators = "cmake"
-    requires = ("libf2c/20181026@czoido/stable")
+    requires = "libf2c/20181026", "lapack/3.7.1@conan/stable"
     _source_subfolder = "levmar_sources"
 
     def source(self):
@@ -34,7 +32,7 @@ conan_basic_setup()''')
 
     def build(self):
         cmake = CMake(self)
-        cmake.definitions["HAVE_LAPACK"] = False
+        cmake.definitions["HAVE_LAPACK"] = True
         cmake.definitions["NEED_F2C"] = True
         cmake.definitions["LM_DBL_PREC"] = True
         cmake.definitions["BUILD_DEMO"] = False
